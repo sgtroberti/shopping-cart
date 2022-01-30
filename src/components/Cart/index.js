@@ -19,6 +19,7 @@ import { ArrowUpIcon, ArrowDownIcon, CloseIcon } from "@chakra-ui/icons";
 import { useContext, useEffect, useRef, useState } from "react";
 import { CartContext } from "../../context/CartContext";
 import styled from "styled-components";
+import Receipt from "../Receipt";
 
 const Cart = ({ children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -171,9 +172,8 @@ const Cart = ({ children }) => {
             >
               Comprar mais
             </Button>
-            <Button colorScheme="blue" width={"230px"}>
-              Finalizar Pedido
-            </Button>
+
+            <Receipt />
           </DrawerFooter>
         </DrawerContent>
       </Drawer>
