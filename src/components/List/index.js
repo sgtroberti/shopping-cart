@@ -9,7 +9,7 @@ const List = () => {
 
   const renderData = data.map((mockedElement) => {
     return (
-      savedCart.find((savedElement) => mockedElement.id === savedElement.id) ||
+      savedCart?.find((savedElement) => mockedElement.id === savedElement.id) ||
       mockedElement
     );
   });
