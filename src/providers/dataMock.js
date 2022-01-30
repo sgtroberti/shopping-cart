@@ -4,6 +4,7 @@ export const dataMock = [
     name: "Banana",
     price: 6,
     unit: "Kg",
+    amount: 0,
     img: "https://d3ugyf2ht6aenh.cloudfront.net/stores/746/397/products/banana_caturra1-7e2b9a3f6b39b3309915220270001382-1024-1024.jpg",
   },
   {
@@ -11,6 +12,7 @@ export const dataMock = [
     name: "Maçã",
     price: 3,
     unit: "Kg",
+    amount: 0,
     img: "https://superprix.vteximg.com.br/arquivos/ids/175207-600-600/Maca-Argentina--1-unidade-aprox.-200g-.png?v=636294203590200000",
   },
   {
@@ -18,6 +20,7 @@ export const dataMock = [
     name: "Laranja",
     price: 5.5,
     unit: "Kg",
+    amount: 0,
     img: "https://cd.shoppub.com.br/cenourao/media/cache/c6/a4/c6a4a7df49b3faa65cb239868ad94728.png",
   },
   {
@@ -25,6 +28,7 @@ export const dataMock = [
     name: "Abacate",
     price: 5,
     unit: "Und",
+    amount: 0,
     img: "https://saude.abril.com.br/wp-content/uploads/2017/07/abacate3.jpg?quality=85&strip=info&w=680",
   },
   {
@@ -32,6 +36,7 @@ export const dataMock = [
     name: "Manga",
     price: 6,
     unit: "Und",
+    amount: 0,
     img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFo2O1QLsPgCExwGZvuDHWmiznUX6TxAZe7SytEFS8ak5Dz57hk5-q266svrUhaOnDsnQ&usqp=CAU",
   },
 ];

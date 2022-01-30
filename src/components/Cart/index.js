@@ -16,15 +16,24 @@ import {
 
 import { ArrowUpIcon, ArrowDownIcon, CloseIcon } from "@chakra-ui/icons";
 
-import { useContext, useEffect, useRef } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { CartContext } from "../../context/CartContext";
 import styled from "styled-components";
 
 const Cart = ({ children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = useRef();
+  const [newItem, setNewItem] = useState();
+  const { cart, clearCart, handleRemoveItem, handleAddItem } =
+    useContext(CartContext);
 
-  const { cart } = useContext(CartContext);
+  const savedCart = JSON.parse(localStorage.getItem("cart"));
+
+  useEffect(() => {
+    if (newItem) {
+      handleAddItem(newItem);
+    }
+  }, [newItem]);
 
   return (
     <>
@@ -44,32 +53,86 @@ const Cart = ({ children }) => {
           <DrawerHeader>Carrinho</DrawerHeader>
 
           <DrawerBody>
-            {cart
-              ? cart.map((item) => {
+            {savedCart
+              ? savedCart.map((item) => {
                   return (
                     <StyledMiniBox
                       height="60px"
                       borderWidth="1px"
                       borderRadius="lg"
+                      key={item.id}
                     >
-                      <Image src={item.img} alt={item.name} height={"50px"} />
+                      <Image
+                        src={item.img}
+                        alt={item.name}
+                        height={"50px"}
+                        width={"50px"}
+                      />
                       <Input border={"none"} disabled value={item.name} />
                       <Input
                         border={"none"}
                         disabled
                         value={`R$ ${item.finalPrice.toFixed(2)}`}
+                        readOnly
                       />
-                      <IconButton icon={<ArrowUpIcon />} />
+                      <IconButton
+                        icon={<ArrowUpIcon />}
+                        onClick={() => {
+                          const newItem = {
+                            id: item.id,
+                            name: item.name,
+                            price: item.price,
+                            unit: item.unit,
+                            img: item.img,
+                            multiplier: item.multiplier,
+                            amount: Number(
+                              (item.amount + item.multiplier).toFixed(2)
+                            ),
+                            finalPrice: Number(
+                              (
+                                (item.amount + item.multiplier) *
+                                item.price
+                              ).toFixed(2)
+                            ),
+                          };
+                          console.log("new item: ", newItem);
+                          setNewItem(newItem);
+                        }}
+                      />
                       <StyledAmount
                         border={"none"}
                         disabled
-                        value={item.amount}
+                        value={savedCart[savedCart.indexOf(item)].amount}
+                        readOnly
                       />
-                      <IconButton icon={<ArrowDownIcon />} />
+                      <IconButton
+                        icon={<ArrowDownIcon />}
+                        onClick={() => {
+                          const newItem = {
+                            id: item.id,
+                            name: item.name,
+                            price: item.price,
+                            unit: item.unit,
+                            img: item.img,
+                            multiplier: item.multiplier,
+                            amount: Number(
+                              (item.amount - item.multiplier).toFixed(2)
+                            ),
+                            finalPrice: Number(
+                              (
+                                (item.amount - item.multiplier) *
+                                item.price
+                              ).toFixed(2)
+                            ),
+                          };
+                          setNewItem(newItem);
+                        }}
+                      />
                       <IconButton
                         marginLeft="4px"
                         colorScheme="red"
                         icon={<CloseIcon />}
+                        onClick={() => handleRemoveItem(item.id)}
                       />
                     </StyledMiniBox>
                   );
@@ -81,14 +144,31 @@ const Cart = ({ children }) => {
             <Input
               fontSize="45px"
               border={"none"}
-              value={`R$: ${cart
+              value={`R$: ${savedCart
                 ?.reduce((sum, actual) => sum + actual.finalPrice, 0)
                 .toFixed(2)}`}
+              readOnly
             />
-            <Button variant="outline" mr={3} onClick={onClose}>
-              Cancelar
+            <Button
+              variant="outline"
+              colorScheme="red"
+              mr={3}
+              onClick={clearCart}
+            >
+              Limpar
             </Button>
-            <Button colorScheme="blue">Finalizar Pedido</Button>
+            <Button
+              colorScheme="blue"
+              variant="outline"
+              mr={3}
+              onClick={onClose}
+              width={"200px"}
+            >
+              Comprar mais
+            </Button>
+            <Button colorScheme="blue" width={"230px"}>
+              Finalizar Pedido
+            </Button>
           </DrawerFooter>
         </DrawerContent>
       </Drawer>
@@ -107,11 +187,6 @@ const StyledMiniBox = styled(Box)`
 const StyledAmount = styled(Input)`
   text-align: center;
   max-width: 80px;
-`;
-
-const StyledFinalValue = styled(Input)`
-  color: #000;
-  font-size: 50px;
 `;
 
 export default Cart;

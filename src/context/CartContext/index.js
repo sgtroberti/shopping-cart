@@ -1,4 +1,5 @@
 import { createContext, useEffect, useState } from "react";
+import { saveData } from "../../services/client";
 
 export const CartContext = createContext({});
 
@@ -6,15 +7,15 @@ export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
 
   useEffect(() => {
-    console.log("Carrinho: ");
-    console.log(cart);
-  }, [cart]);
+    cart.length && saveData(cart);
+  });
 
   const handleAddItem = (item) => {
     if (item.amount !== 0) {
       const sameIdFree = cart.filter((el) => el.id !== item.id);
       const newCart = [...sameIdFree, item];
-      setCart(newCart);
+      const orderedCart = newCart.sort((a, b) => a.id - b.id);
+      setCart(orderedCart);
     } else {
       handleRemoveItem(item.id);
     }
@@ -22,7 +23,6 @@ export const CartProvider = ({ children }) => {
 
   const handleRemoveItem = (clickedId) => {
     const filteredCart = cart.filter((cartItem) => cartItem.id !== clickedId);
-    console.log(filteredCart);
     setCart(filteredCart);
   };
 

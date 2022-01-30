@@ -2,7 +2,7 @@ import { Box, Image } from "@chakra-ui/react";
 import styled from "styled-components";
 import Form from "../Form";
 
-const FruitCard = ({ name, price, unit, img, id }) => {
+const FruitCard = ({ name, price, unit, img, id, amount }) => {
   return (
     <StyledBox maxW="sm" borderWidth="1px" borderRadius="lg" overflow="hidden">
       <StyledImage htmlWidth="200px" src={img} alt={name} />
@@ -26,7 +26,14 @@ const FruitCard = ({ name, price, unit, img, id }) => {
         </Box>
 
         <Box display="flex" mt="2" alignItems="center">
-          <Form unit={unit} price={price} name={name} img={img} id={id} />
+          <Form
+            unit={unit}
+            price={price}
+            name={name}
+            img={img}
+            id={id}
+            amount={amount}
+          />
         </Box>
       </Box>
     </StyledBox>

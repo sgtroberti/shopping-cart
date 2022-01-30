@@ -1,18 +1,15 @@
-import { getData } from "../../services/client";
+import { getRenderData } from "../../services/client";
 import FruitCard from "../FruitCard";
 import styled from "styled-components";
-import { useContext } from "react";
-import { CartContext } from "../../context/CartContext";
 import Cart from "../Cart";
 
 const List = () => {
-  const data = getData();
-  const { cart } = useContext(CartContext);
+  const data = getRenderData();
 
   return (
     <>
       <StyledList>
-        {data.map(({ name, id, price, unit, img }) => {
+        {data.map(({ name, id, price, unit, img, amount }) => {
           return (
             <FruitCard
               key={id}
@@ -21,6 +18,7 @@ const List = () => {
               price={price}
               unit={unit}
               img={img}
+              amount={amount}
             />
           );
         })}

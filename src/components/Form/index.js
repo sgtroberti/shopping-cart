@@ -14,11 +14,13 @@ import { CartContext } from "../../context/CartContext";
 
 const Form = ({ name, price, unit, img, id }) => {
   const [amount, setAmount] = useState(0);
-  const [item, setItem] = useState();
+  const [item, setItem] = useState(null);
   const multiplier = unit === "Kg" ? 0.1 : 1;
 
-  const { handleAddItem, cart, searchCartById, handleRemoveItem } =
-    useContext(CartContext);
+  const { handleAddItem } = useContext(CartContext);
+
+  const savedCart = JSON.parse(localStorage.getItem("cart"));
+  const filteredSavedCart = savedCart.filter((el) => el.id === id)[0];
 
   useEffect(() => {
     if (item) {
@@ -28,7 +30,16 @@ const Form = ({ name, price, unit, img, id }) => {
 
   const createItem = () => {
     const finalPrice = Number((price * amount).toFixed(2));
-    const newItem = { id, name, price, unit, amount, finalPrice, img };
+    const newItem = {
+      id,
+      name,
+      price,
+      unit,
+      amount,
+      finalPrice,
+      img,
+      multiplier,
+    };
     setItem((item) => newItem);
   };
 
@@ -36,11 +47,15 @@ const Form = ({ name, price, unit, img, id }) => {
     <StyledFormControl>
       <FormLabel htmlFor="amount">Quantidade</FormLabel>
       <StyledAmountInput>
-        <NumberInput step={multiplier} min={-0.1}>
+        <NumberInput
+          defaultValue={filteredSavedCart ? filteredSavedCart.amount : 0}
+          step={multiplier}
+          min={0}
+        >
           <NumberInputField
             id="amount"
             onChange={(ev) => setAmount(ev.target.value)}
-            value={0}
+            textAlign={"center"}
           />
           <NumberInputStepper>
             <NumberIncrementStepper
@@ -50,7 +65,7 @@ const Form = ({ name, price, unit, img, id }) => {
             />
             <NumberDecrementStepper
               onClick={() =>
-                amount > 0 &&
+                amount > 0.01 &&
                 setAmount(Number((amount - multiplier).toFixed(1)))
               }
             />
@@ -58,7 +73,11 @@ const Form = ({ name, price, unit, img, id }) => {
         </NumberInput>
         <StyledUnit>{unit}</StyledUnit>
       </StyledAmountInput>
-      <StyledUnit>{`R$ ${(price * amount).toFixed(2)}`}</StyledUnit>
+      <StyledUnit>
+        {filteredSavedCart
+          ? `R$ ${filteredSavedCart.finalPrice.toFixed(2)}`
+          : `R$ ${(price * amount).toFixed(2)}`}
+      </StyledUnit>
       <Button onClick={() => createItem()}>Add no Carrinho</Button>
     </StyledFormControl>
   );
