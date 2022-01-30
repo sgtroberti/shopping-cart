@@ -40,7 +40,15 @@ const Cart = ({ children }) => {
 
   return (
     <>
-      <Button ref={btnRef} colorScheme="blue" onClick={onOpen}>
+      <Button
+        ref={btnRef}
+        colorScheme="blue"
+        maxW="300px"
+        minW="200px"
+        alignSelf="center"
+        onClick={onOpen}
+        marginRight="1rem"
+      >
         {children}
       </Button>
       <Drawer

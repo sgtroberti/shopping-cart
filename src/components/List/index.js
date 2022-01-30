@@ -15,7 +15,7 @@ const List = () => {
   });
 
   return (
-    <>
+    <StyledContainer>
       <StyledList>
         {renderData.map(({ name, id, price, unit, img, amount }) => {
           return (
@@ -32,13 +32,20 @@ const List = () => {
         })}
       </StyledList>
       <Cart>Abrir Carrinho</Cart>
-    </>
+    </StyledContainer>
   );
 };
 
 const StyledList = styled.div`
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
+`;
+
+const StyledContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 `;
 
 export default List;

@@ -41,7 +41,7 @@ const FruitCard = ({ name, price, unit, img, id, amount }) => {
 };
 
 const StyledBox = styled(Box)`
-  width: 250px;
+  width: 200px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -50,8 +50,8 @@ const StyledBox = styled(Box)`
 `;
 
 const StyledImage = styled(Image)`
-  height: 200px;
-  width: 200px;
+  height: 150px;
+  width: 150px;
 `;
 
 export default FruitCard;

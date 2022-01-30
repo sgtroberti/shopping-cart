@@ -7,6 +7,7 @@ import {
   NumberIncrementStepper,
   NumberDecrementStepper,
   Button,
+  useToast,
 } from "@chakra-ui/react";
 import { useContext, useState, useEffect } from "react";
 import styled from "styled-components";
@@ -18,6 +19,8 @@ const Form = ({ name, price, unit, img, id, amount }) => {
 
   const multiplier = unit === "Kg" ? 0.1 : 1;
   const { handleAddItem } = useContext(CartContext);
+
+  const toast = useToast();
 
   useEffect(() => {
     if (item) {
@@ -39,6 +42,12 @@ const Form = ({ name, price, unit, img, id, amount }) => {
       multiplier,
     };
     setItem(newItem);
+    toast({
+      title: "Item adicionado ao carrinho",
+      status: "success",
+      duration: 5000,
+      isClosable: true,
+    });
   };
 
   return (

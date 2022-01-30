@@ -16,6 +16,7 @@ import { CartContext } from "../../context/CartContext";
 const Receipt = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { clearCart, cart } = useContext(CartContext);
+
   return (
     <>
       <Button colorScheme="blue" width="250px" onClick={onOpen}>
@@ -73,11 +74,13 @@ const Receipt = () => {
               mr={3}
               onClick={onClose}
             >
-              Continuar comprando
+              {cart ? "Continuar comprando" : "Voltar"}
             </Button>
-            <Button colorScheme="blue" mr={3} onClick={clearCart}>
-              Confirmar
-            </Button>
+            {cart && (
+              <Button colorScheme="blue" mr={3} onClick={clearCart}>
+                Confirmar
+              </Button>
+            )}
           </ModalFooter>
         </ModalContent>
       </Modal>
