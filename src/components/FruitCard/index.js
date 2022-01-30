@@ -1,11 +1,16 @@
-import { Box, Image } from "@chakra-ui/react";
-import styled from "styled-components";
+import { Box } from "@chakra-ui/react";
+import * as S from "./styles";
 import Form from "../Form";
 
 const FruitCard = ({ name, price, unit, img, id, amount }) => {
   return (
-    <StyledBox maxW="sm" borderWidth="1px" borderRadius="lg" overflow="hidden">
-      <StyledImage htmlWidth="200px" src={img} alt={name} />
+    <S.StyledBox
+      maxW="sm"
+      borderWidth="1px"
+      borderRadius="lg"
+      overflow="hidden"
+    >
+      <S.StyledImage htmlWidth="200px" src={img} alt={name} />
 
       <Box p="6">
         <Box
@@ -36,22 +41,8 @@ const FruitCard = ({ name, price, unit, img, id, amount }) => {
           />
         </Box>
       </Box>
-    </StyledBox>
+    </S.StyledBox>
   );
 };
-
-const StyledBox = styled(Box)`
-  width: 200px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  margin: 0 1rem 1rem 0;
-`;
-
-const StyledImage = styled(Image)`
-  height: 150px;
-  width: 150px;
-`;
 
 export default FruitCard;

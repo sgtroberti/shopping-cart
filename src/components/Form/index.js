@@ -1,5 +1,4 @@
 import {
-  FormControl,
   FormLabel,
   NumberInput,
   NumberInputField,
@@ -10,7 +9,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { useContext, useState, useEffect } from "react";
-import styled from "styled-components";
+import * as S from "./styles";
 import { CartContext } from "../../context/CartContext";
 
 const Form = ({ name, price, unit, img, id, amount }) => {
@@ -51,9 +50,9 @@ const Form = ({ name, price, unit, img, id, amount }) => {
   };
 
   return (
-    <StyledFormControl>
+    <S.StyledFormControl>
       <FormLabel htmlFor="amount">Quantidade</FormLabel>
-      <StyledAmountInput>
+      <S.StyledAmountInput>
         <NumberInput defaultValue={amount} step={multiplier} min={0}>
           <NumberInputField
             id="amount"
@@ -74,28 +73,12 @@ const Form = ({ name, price, unit, img, id, amount }) => {
             />
           </NumberInputStepper>
         </NumberInput>
-        <StyledUnit>{unit}</StyledUnit>
-      </StyledAmountInput>
-      <StyledUnit>{`R$ ${(price * newAmount).toFixed(2)}`}</StyledUnit>
+        <S.StyledUnit>{unit}</S.StyledUnit>
+      </S.StyledAmountInput>
+      <S.StyledUnit>{`R$ ${(price * newAmount).toFixed(2)}`}</S.StyledUnit>
       <Button onClick={() => createItem()}>Add no Carrinho</Button>
-    </StyledFormControl>
+    </S.StyledFormControl>
   );
 };
-
-const StyledAmountInput = styled.div`
-  display: flex;
-  margin: auto;
-  align-items: center;
-`;
-
-const StyledUnit = styled.span`
-  font-size: 1.2rem;
-  padding-left: 5px;
-`;
-
-const StyledFormControl = styled(FormControl)`
-  display: flex;
-  flex-direction: column;
-`;
 
 export default Form;

@@ -1,6 +1,6 @@
 import { getRenderData, getSavedCart } from "../../services/client";
 import FruitCard from "../FruitCard";
-import styled from "styled-components";
+import * as S from "./styles";
 import Cart from "../Cart";
 
 const List = () => {
@@ -15,8 +15,8 @@ const List = () => {
   });
 
   return (
-    <StyledContainer>
-      <StyledList>
+    <S.StyledContainer>
+      <S.StyledList>
         {renderData.map(({ name, id, price, unit, img, amount }) => {
           return (
             <FruitCard
@@ -30,22 +30,10 @@ const List = () => {
             />
           );
         })}
-      </StyledList>
+      </S.StyledList>
       <Cart>Abrir Carrinho</Cart>
-    </StyledContainer>
+    </S.StyledContainer>
   );
 };
-
-const StyledList = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-`;
-
-const StyledContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-`;
 
 export default List;
