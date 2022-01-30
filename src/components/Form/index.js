@@ -59,7 +59,7 @@ const Form = ({ name, price, unit, img, id, amount }) => {
             />
             <NumberDecrementStepper
               onClick={() =>
-                amount > 0.01 &&
+                newAmount > 0.01 &&
                 setNewAmount(Number((newAmount - multiplier).toFixed(1)))
               }
             />
