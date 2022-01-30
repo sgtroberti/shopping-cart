@@ -12,72 +12,62 @@ import { useContext, useState, useEffect } from "react";
 import styled from "styled-components";
 import { CartContext } from "../../context/CartContext";
 
-const Form = ({ name, price, unit, img, id }) => {
-  const [amount, setAmount] = useState(0);
+const Form = ({ name, price, unit, img, id, amount }) => {
+  const [newAmount, setNewAmount] = useState(amount);
   const [item, setItem] = useState(null);
+
   const multiplier = unit === "Kg" ? 0.1 : 1;
-
   const { handleAddItem } = useContext(CartContext);
-
-  const savedCart = JSON.parse(localStorage.getItem("cart"));
-  const filteredSavedCart = savedCart.filter((el) => el.id === id)[0];
 
   useEffect(() => {
     if (item) {
       handleAddItem(item);
+      setItem(null);
     }
   }, [item]);
 
   const createItem = () => {
-    const finalPrice = Number((price * amount).toFixed(2));
+    const finalPrice = Number((price * newAmount).toFixed(2));
     const newItem = {
       id,
       name,
       price,
       unit,
-      amount,
+      amount: newAmount,
       finalPrice,
       img,
       multiplier,
     };
-    setItem((item) => newItem);
+    setItem(newItem);
   };
 
   return (
     <StyledFormControl>
       <FormLabel htmlFor="amount">Quantidade</FormLabel>
       <StyledAmountInput>
-        <NumberInput
-          defaultValue={filteredSavedCart ? filteredSavedCart.amount : 0}
-          step={multiplier}
-          min={0}
-        >
+        <NumberInput defaultValue={amount} step={multiplier} min={0}>
           <NumberInputField
             id="amount"
-            onChange={(ev) => setAmount(ev.target.value)}
+            onChange={(ev) => setNewAmount(ev.target.value)}
             textAlign={"center"}
           />
           <NumberInputStepper>
             <NumberIncrementStepper
               onClick={() =>
-                setAmount(Number((amount + multiplier).toFixed(1)))
+                setNewAmount(Number((newAmount + multiplier).toFixed(1)))
               }
             />
             <NumberDecrementStepper
               onClick={() =>
                 amount > 0.01 &&
-                setAmount(Number((amount - multiplier).toFixed(1)))
+                setNewAmount(Number((newAmount - multiplier).toFixed(1)))
               }
             />
           </NumberInputStepper>
         </NumberInput>
         <StyledUnit>{unit}</StyledUnit>
       </StyledAmountInput>
-      <StyledUnit>
-        {filteredSavedCart
-          ? `R$ ${filteredSavedCart.finalPrice.toFixed(2)}`
-          : `R$ ${(price * amount).toFixed(2)}`}
-      </StyledUnit>
+      <StyledUnit>{`R$ ${(price * newAmount).toFixed(2)}`}</StyledUnit>
       <Button onClick={() => createItem()}>Add no Carrinho</Button>
     </StyledFormControl>
   );

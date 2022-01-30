@@ -24,14 +24,16 @@ const Cart = ({ children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = useRef();
   const [newItem, setNewItem] = useState();
-  const { cart, clearCart, handleRemoveItem, handleAddItem } =
+
+  const { clearCart, handleRemoveItem, handleAddItem, cart } =
     useContext(CartContext);
 
-  const savedCart = JSON.parse(localStorage.getItem("cart"));
+  useEffect(() => {}, [isOpen]);
 
   useEffect(() => {
     if (newItem) {
       handleAddItem(newItem);
+      setNewItem(null);
     }
   }, [newItem]);
 
@@ -53,8 +55,8 @@ const Cart = ({ children }) => {
           <DrawerHeader>Carrinho</DrawerHeader>
 
           <DrawerBody>
-            {savedCart
-              ? savedCart.map((item) => {
+            {cart
+              ? cart?.map((item) => {
                   return (
                     <StyledMiniBox
                       height="60px"
@@ -72,7 +74,7 @@ const Cart = ({ children }) => {
                       <Input
                         border={"none"}
                         disabled
-                        value={`R$ ${item.finalPrice.toFixed(2)}`}
+                        value={`R$ ${item?.finalPrice?.toFixed(2)}`}
                         readOnly
                       />
                       <IconButton
@@ -95,14 +97,13 @@ const Cart = ({ children }) => {
                               ).toFixed(2)
                             ),
                           };
-                          console.log("new item: ", newItem);
                           setNewItem(newItem);
                         }}
                       />
                       <StyledAmount
                         border={"none"}
                         disabled
-                        value={savedCart[savedCart.indexOf(item)].amount}
+                        value={cart[cart.indexOf(item)].amount}
                         readOnly
                       />
                       <IconButton
@@ -132,7 +133,9 @@ const Cart = ({ children }) => {
                         marginLeft="4px"
                         colorScheme="red"
                         icon={<CloseIcon />}
-                        onClick={() => handleRemoveItem(item.id)}
+                        onClick={() => {
+                          handleRemoveItem(item.id);
+                        }}
                       />
                     </StyledMiniBox>
                   );
@@ -144,9 +147,11 @@ const Cart = ({ children }) => {
             <Input
               fontSize="45px"
               border={"none"}
-              value={`R$: ${savedCart
-                ?.reduce((sum, actual) => sum + actual.finalPrice, 0)
-                .toFixed(2)}`}
+              value={`R$: ${
+                cart
+                  ?.reduce((sum, actual) => sum + actual.finalPrice, 0)
+                  .toFixed(2) || `0.00`
+              }`}
               readOnly
             />
             <Button

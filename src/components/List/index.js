@@ -1,15 +1,23 @@
-import { getRenderData } from "../../services/client";
+import { getRenderData, getSavedCart } from "../../services/client";
 import FruitCard from "../FruitCard";
 import styled from "styled-components";
 import Cart from "../Cart";
 
 const List = () => {
   const data = getRenderData();
+  const savedCart = getSavedCart();
+
+  const renderData = data.map((mockedElement) => {
+    return (
+      savedCart.find((savedElement) => mockedElement.id === savedElement.id) ||
+      mockedElement
+    );
+  });
 
   return (
     <>
       <StyledList>
-        {data.map(({ name, id, price, unit, img, amount }) => {
+        {renderData.map(({ name, id, price, unit, img, amount }) => {
           return (
             <FruitCard
               key={id}

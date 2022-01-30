@@ -7,3 +7,5 @@ export const saveData = (cart) =>
 
 export const getData = () =>
   JSON.parse(localStorage.getItem("cart")) || dataMock;
+
+export const getSavedCart = () => JSON.parse(localStorage.getItem("cart"));
