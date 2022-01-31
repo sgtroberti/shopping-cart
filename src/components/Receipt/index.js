@@ -35,6 +35,7 @@ const Receipt = () => {
             {cart?.map((item) => {
               return (
                 <Box
+                  key={item.id}
                   borderWidth="1px"
                   borderRadius="lg"
                   color="black"
@@ -60,11 +61,17 @@ const Receipt = () => {
               fontWeight="700"
               textAlign="center"
             >
-              {`R$: ${
-                cart
-                  ?.reduce((sum, actual) => sum + actual.finalPrice, 0)
-                  .toFixed(2) || `0.00`
-              }`}
+              {cart
+                ? Number(
+                    cart
+                      .reduce((sum, actual) => sum + actual.finalPrice, 0)
+                      .toFixed(2)
+                  ).toLocaleString("pt-BR", {
+                    currency: "BRL",
+                    style: "currency",
+                    minimumFractionDigits: 2,
+                  })
+                : `R$ 0,00`}
             </Box>
           </ModalBody>
           <ModalFooter>
@@ -74,10 +81,22 @@ const Receipt = () => {
               mr={3}
               onClick={onClose}
             >
-              {cart ? "Continuar comprando" : "Voltar"}
+              {cart && cart.reduce((sum, actual) => sum + actual?.finalPrice, 0)
+                ? "Continuar comprando"
+                : "Voltar"}
             </Button>
             {cart && (
-              <Button colorScheme="blue" mr={3} onClick={clearCart}>
+              <Button
+                colorScheme="blue"
+                mr={3}
+                onClick={clearCart}
+                disabled={
+                  cart &&
+                  cart.reduce((sum, actual) => sum + actual?.finalPrice, 0)
+                    ? false
+                    : true
+                }
+              >
                 Confirmar
               </Button>
             )}

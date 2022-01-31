@@ -24,7 +24,11 @@ const FruitCard = ({ name, price, unit, img, id, amount }) => {
         </Box>
 
         <Box>
-          {`R$ ${price.toFixed(2)}`}
+          {Number(price.toFixed(2)).toLocaleString("pt-BR", {
+            currency: "BRL",
+            style: "currency",
+            minimumFractionDigits: 2,
+          })}
           <Box as="span" color="gray.600" fontSize="sm">
             {` ${unit}`}
           </Box>

@@ -149,11 +149,19 @@ const Cart = ({ children }) => {
               <Input
                 fontSize="45px"
                 border={"none"}
-                value={`R$: ${
+                value={
                   cart
-                    ?.reduce((sum, actual) => sum + actual.finalPrice, 0)
-                    .toFixed(2) || `0.00`
-                }`}
+                    ? Number(
+                        cart
+                          .reduce((sum, actual) => sum + actual.finalPrice, 0)
+                          .toFixed(2)
+                      ).toLocaleString("pt-BR", {
+                        currency: "BRL",
+                        style: "currency",
+                        minimumFractionDigits: 2,
+                      })
+                    : `R$ 0,00`
+                }
                 readOnly
               />
             </div>

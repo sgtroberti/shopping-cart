@@ -75,8 +75,16 @@ const Form = ({ name, price, unit, img, id, amount }) => {
         </NumberInput>
         <S.StyledUnit>{unit}</S.StyledUnit>
       </S.StyledAmountInput>
-      <S.StyledUnit>{`R$ ${(price * newAmount).toFixed(2)}`}</S.StyledUnit>
-      <Button onClick={() => createItem()}>Add no Carrinho</Button>
+      <S.StyledUnit>
+        {Number((price * newAmount).toFixed(2)).toLocaleString("pt-BR", {
+          currency: "BRL",
+          style: "currency",
+          minimumFractionDigits: 2,
+        })}
+      </S.StyledUnit>
+      <Button disabled={newAmount ? false : true} onClick={() => createItem()}>
+        Add no Carrinho
+      </Button>
     </S.StyledFormControl>
   );
 };
